@@ -36,7 +36,7 @@ pub trait Graph<T> {
     }
 
     /// Returns every edge once, with `from < to`.
-    fn edges(&self) -> Vec<Edge>;
+    fn edges(&self) -> impl Iterator<Item = Edge> + '_;
 }
 
 /// An undirected weighted edge.
@@ -136,10 +136,10 @@ mod tests {
     fn random_graph_respects_extremes() {
         let mut rng = StdRng::seed_from_u64(0);
         let empty = GraphMatrix::new_random(0..10, 0.0, 1..=9, &mut rng).unwrap();
-        assert!(empty.edges().is_empty());
+        assert_eq!(empty.edges().count(), 0);
 
         let complete = GraphStars::new_random(0..10, 1.0, 3..=7, &mut rng).unwrap();
-        let edges = complete.edges();
+        let edges: Vec<Edge> = complete.edges().collect();
         assert_eq!(edges.len(), 45);
         assert!(edges
             .iter()

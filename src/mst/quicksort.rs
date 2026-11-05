@@ -17,7 +17,7 @@ impl QuickSortKruskal {
     pub fn new<T>(graph: &impl Graph<T>) -> Self {
         QuickSortKruskal {
             num_vertices: graph.num_vertices(),
-            edges: graph.edges(),
+            edges: graph.edges().collect(),
         }
     }
 

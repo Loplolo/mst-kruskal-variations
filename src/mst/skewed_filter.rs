@@ -15,7 +15,7 @@ impl SkewedFilterKruskal {
     pub fn new<T>(graph: &impl Graph<T>) -> Self {
         SkewedFilterKruskal {
             num_vertices: graph.num_vertices(),
-            edges: graph.edges(),
+            edges: graph.edges().collect(),
         }
     }
 

@@ -109,13 +109,12 @@ impl<T> Graph<T> for GraphStars<T> {
         &self.vertices
     }
 
-    fn edges(&self) -> Vec<Edge> {
+    fn edges(&self) -> impl Iterator<Item = Edge> + '_ {
         self.stars
             .iter()
             .flatten()
             .filter(|e| e.from < e.to)
             .copied()
-            .collect()
     }
 }
 
@@ -129,7 +128,7 @@ mod tests {
         g.add_edge(2, 0, 5).unwrap();
         assert_eq!(g.stars()[0], vec![Edge::new(0, 2, 5)]);
         assert_eq!(g.stars()[2], vec![Edge::new(2, 0, 5)]);
-        assert_eq!(g.edges(), vec![Edge::new(0, 2, 5)]);
+        assert_eq!(g.edges().collect::<Vec<_>>(), vec![Edge::new(0, 2, 5)]);
     }
 
     #[test]
@@ -145,7 +144,7 @@ mod tests {
     fn self_loops_are_ignored_and_bounds_are_checked() {
         let mut g: GraphStars<()> = std::iter::repeat_n((), 2).collect();
         g.add_edge(1, 1, 7).unwrap();
-        assert!(g.edges().is_empty());
+        assert_eq!(g.edges().count(), 0);
         assert!(matches!(
             g.add_edge(5, 0, 1),
             Err(GraphError::VertexOutOfBounds { vertex: 5, .. })

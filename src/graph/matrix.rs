@@ -123,8 +123,8 @@ impl<T> Graph<T> for GraphMatrix<T> {
         &self.vertices
     }
 
-    fn edges(&self) -> Vec<Edge> {
-        self.edges.clone()
+    fn edges(&self) -> impl Iterator<Item = Edge> + '_ {
+        self.edges.iter().copied()
     }
 }
 
@@ -154,14 +154,14 @@ mod tests {
         g.add_edge(0, 2, 3).unwrap();
         assert_eq!(g.cost(0, 2), Some(3));
         assert_eq!(g.cost(2, 0), Some(3));
-        assert_eq!(g.edges(), vec![Edge::new(0, 2, 3)]);
+        assert_eq!(g.edges().collect::<Vec<_>>(), vec![Edge::new(0, 2, 3)]);
     }
 
     #[test]
     fn self_loops_and_missing_edges() {
         let mut g: GraphMatrix<()> = std::iter::repeat_n((), 2).collect();
         g.add_edge(1, 1, 7).unwrap();
-        assert!(g.edges().is_empty());
+        assert_eq!(g.edges().count(), 0);
         assert_eq!(g.cost(0, 1), None);
         assert_eq!(g.cost(1, 1), None);
         assert_eq!(g.cost(0, 9), None);
@@ -184,6 +184,6 @@ mod tests {
                 num_vertices: 2
             })
         );
-        assert!(g.edges().is_empty());
+        assert_eq!(g.edges().count(), 0);
     }
 }

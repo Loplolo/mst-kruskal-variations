@@ -14,7 +14,7 @@ impl Kruskal {
     pub fn new<T>(graph: &impl Graph<T>) -> Self {
         Kruskal {
             num_vertices: graph.num_vertices(),
-            heap: graph.edges().into_iter().map(Reverse).collect(),
+            heap: graph.edges().map(Reverse).collect(),
         }
     }
 

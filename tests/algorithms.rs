@@ -80,9 +80,9 @@ fn assert_minimum_forest(name: &str, n: usize, edges: &[Edge], forest: &Spanning
 
 fn check_all(matrix: &GraphMatrix<usize>, stars: &GraphStars<usize>, seed: u64) {
     let n = matrix.num_vertices();
-    let edges = matrix.edges();
+    let edges: Vec<Edge> = matrix.edges().collect();
     let mut sorted_matrix = edges.clone();
-    let mut sorted_stars = stars.edges();
+    let mut sorted_stars: Vec<Edge> = stars.edges().collect();
     sorted_matrix.sort();
     sorted_stars.sort();
     assert_eq!(sorted_matrix, sorted_stars, "graph representations differ");
