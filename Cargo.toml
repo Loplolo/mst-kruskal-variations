@@ -1,0 +1,22 @@
+[package]
+name = "mst-kruskal-variants"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Kruskal's minimum spanning tree algorithm and its QuickSort, Filter, Skewed-Filter and Star-QuickSort variants."
+license = "GPL-3.0-or-later"
+repository = "https://github.com/Loplolo/mst-kruskal-variations"
+readme = "README.org"
+keywords = ["graph", "mst", "kruskal", "spanning-tree", "algorithm"]
+categories = ["algorithms", "data-structures"]
+
+[dependencies]
+rand = { version = "0.10", default-features = false }
+
+[dev-dependencies]
+criterion = "0.5"
+rand = "0.10"
+
+[[bench]]
+name = "mst_variants"
+harness = false
